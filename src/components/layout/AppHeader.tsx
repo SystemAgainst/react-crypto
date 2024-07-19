@@ -1,5 +1,5 @@
 import { Button, Layout, Select, Space } from 'antd';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useCrypto } from '../../context/crypto-context.tsx';
 
 const headerStyle: React.CSSProperties = {
@@ -12,13 +12,32 @@ const headerStyle: React.CSSProperties = {
 };
 
 export default function AppHeader() {
+  const [select, setSelect] = useState(false);
   const { crypto } = useCrypto();
+
+  useEffect(() => {
+    const keypress = (event) => {
+      if (event.key === '/') {
+        return setSelect((prev) => !prev);
+      }
+    };
+
+    document.addEventListener('keypress', keypress);
+    return () => document.removeEventListener('keypress', keypress);
+  }, []);
+
+  const handleSelect = (value) => {
+    console.log(value);
+  };
 
   return (
     <Layout.Header style={headerStyle}>
       <Select
         style={{ width: '250px' }}
         value="press / to open"
+        onSelect={handleSelect}
+        open={select}
+        onClick={() => setSelect((prev) => !prev)}
         options={crypto.map((coin) => ({
           label: coin.name,
           value: coin.id,
