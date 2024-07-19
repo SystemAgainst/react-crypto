@@ -26,7 +26,6 @@ export default function AppHeader() {
   };
 
   const handleSelect = (value: string) => {
-    console.log(value);
     const selectedCoin = crypto.find((c) => c.id === value);
 
     if (!selectedCoin) {
