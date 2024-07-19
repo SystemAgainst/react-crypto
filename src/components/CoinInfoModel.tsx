@@ -1,6 +1,7 @@
-import { Divider, Flex, Tag, Typography } from 'antd';
+import { Divider, Tag, Typography } from 'antd';
 import { Crypto } from '../types/ICrypto.ts';
 import React from 'react';
+import CoinInfo from './CoinInfo.tsx';
 
 interface coinInfoModelProps {
   coin: Crypto | null;
@@ -13,13 +14,7 @@ const coinInfoModel: React.FC<coinInfoModelProps> = ({ coin }) => {
 
   return (
     <>
-      <Flex align="center">
-        <img src={coin?.icon} alt={coin?.name} style={{ width: 40, marginRight: 10 }} />
-        <Typography.Title level={2} style={{ margin: 0 }}>
-          {<span>({coin?.symbol})</span>} {coin?.name}
-        </Typography.Title>
-      </Flex>
-
+      <CoinInfo coin={coin} />
       <Divider />
 
       <Typography.Paragraph>
