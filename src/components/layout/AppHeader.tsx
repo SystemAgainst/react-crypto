@@ -28,7 +28,7 @@ export default function AppHeader() {
     setIsModalOpen(false);
   };
 
-  const handleSelect = (value) => {
+  const handleSelect = (value: string) => {
     console.log(value);
     const selectedCoin = crypto.find((c) => c.id === value);
 
@@ -41,7 +41,7 @@ export default function AppHeader() {
   };
 
   useEffect(() => {
-    const keypress = (event) => {
+    const keypress = (event: KeyboardEvent) => {
       if (event.key === '/') {
         return setSelect((prev) => !prev);
       }
