@@ -19,10 +19,6 @@ export default function AppHeader() {
   const [coin, setCoin] = useState<Crypto | null>(null);
   const { crypto } = useCrypto();
 
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
   const handleCancel = () => {
     setIsModalOpen(false);
   };
@@ -74,9 +70,6 @@ export default function AppHeader() {
 
         <Button type="primary">Add asset</Button>
 
-        <Button type="primary" onClick={showModal}>
-          Open Modal
-        </Button>
         <Modal open={isModalOpen} onCancel={handleCancel} footer={null}>
           <CoinInfoModel coin={coin} />
         </Modal>
