@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useEffect, useState, ReactNode, useContext } from 'react';
 import { ICrypto, IAsset, ICryptoContext } from '../types';
 import { fakeFetchCrypto, fetchAssets } from '../api';
 import { calculatePercentageDifference } from '../utlis';
@@ -15,7 +15,7 @@ export const CryptoContext = createContext<ICryptoContext>({
 
 export const CryptoContextProvider = ({ children }: CryptoContextProviderProps) => {
   const [loading, setLoading] = useState(false);
-  const [crypto, setCrypto] = useState<ICrypto[]>([]);
+  const [crypto, setCrypto] = useState<ICrypto['result']>([]);
   const [assets, setAssets] = useState<IAsset[]>([]);
 
   useEffect(() => {
@@ -58,3 +58,7 @@ export const CryptoContextProvider = ({ children }: CryptoContextProviderProps) 
 };
 
 export default CryptoContext;
+
+export const useCrypto = () => {
+  return useContext(CryptoContext);
+};
