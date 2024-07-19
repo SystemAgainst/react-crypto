@@ -14,7 +14,7 @@ const coinInfoModel: React.FC<coinInfoModelProps> = ({ coin }) => {
 
   return (
     <>
-      <CoinInfo coin={coin} />
+      <CoinInfo coin={coin} showSymbol />
       <Divider />
 
       <Typography.Paragraph>

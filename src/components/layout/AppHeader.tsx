@@ -77,7 +77,13 @@ export default function AppHeader() {
           <CoinInfoModel coin={coin} />
         </Modal>
 
-        <Drawer title="Add Asset" width={600} onClose={() => setIsDrawerOpen(false)} open={isDrawerOpen}>
+        <Drawer
+          title="Add Asset"
+          width={600}
+          onClose={() => setIsDrawerOpen(false)}
+          open={isDrawerOpen}
+          destroyOnClose
+        >
           <AddAssetForm />
         </Drawer>
       </Layout.Header>
