@@ -19,7 +19,6 @@ export default function AppHeader() {
   const [coin, setCoin] = useState<Crypto | null>(null);
   const { crypto } = useCrypto();
 
-
   const showModal = () => {
     setIsModalOpen(true);
   };
