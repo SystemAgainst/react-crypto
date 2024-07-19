@@ -7,7 +7,7 @@ interface Meta {
   hasNextPage: boolean;
 }
 
-interface Crypto {
+export interface Crypto {
   id: string;
   icon: string;
   name: string;

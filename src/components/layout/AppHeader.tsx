@@ -2,6 +2,7 @@ import { Button, Layout, Modal, Select, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useCrypto } from '../../context/crypto-context.tsx';
 import CoinInfoModel from '../CoinInfoModel.tsx';
+import { Crypto } from '../../types/ICrypto.ts';
 
 const headerStyle: React.CSSProperties = {
   width: '100%',
@@ -15,7 +16,7 @@ const headerStyle: React.CSSProperties = {
 export default function AppHeader() {
   const [select, setSelect] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [coin, setCoin] = useState(null);
+  const [coin, setCoin] = useState<Crypto | null>(null);
   const { crypto } = useCrypto();
 
 
@@ -29,7 +30,13 @@ export default function AppHeader() {
 
   const handleSelect = (value) => {
     console.log(value);
-    setCoin(crypto.find((c) => c.id === value));
+    const selectedCoin = crypto.find((c) => c.id === value);
+
+    if (!selectedCoin) {
+      return setCoin(null);
+    }
+
+    setCoin(selectedCoin);
     setIsModalOpen(true);
   };
 
