@@ -1,6 +1,7 @@
-import { Button, Layout, Select, Space } from 'antd';
+import { Button, Layout, Modal, Select, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useCrypto } from '../../context/crypto-context.tsx';
+import CoinInfoModel from '../CoinInfoModel.tsx';
 
 const headerStyle: React.CSSProperties = {
   width: '100%',
@@ -13,7 +14,24 @@ const headerStyle: React.CSSProperties = {
 
 export default function AppHeader() {
   const [select, setSelect] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [coin, setCoin] = useState(null);
   const { crypto } = useCrypto();
+
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleSelect = (value) => {
+    console.log(value);
+    setCoin(crypto.find((c) => c.id === value));
+    setIsModalOpen(true);
+  };
 
   useEffect(() => {
     const keypress = (event) => {
@@ -26,32 +44,37 @@ export default function AppHeader() {
     return () => document.removeEventListener('keypress', keypress);
   }, []);
 
-  const handleSelect = (value) => {
-    console.log(value);
-  };
-
   return (
-    <Layout.Header style={headerStyle}>
-      <Select
-        style={{ width: '250px' }}
-        value="press / to open"
-        onSelect={handleSelect}
-        open={select}
-        onClick={() => setSelect((prev) => !prev)}
-        options={crypto.map((coin) => ({
-          label: coin.name,
-          value: coin.id,
-          icon: coin.icon,
-        }))}
-        optionRender={(option) => (
-          <Space>
-            <img style={{ width: 20 }} src={option.data.icon} alt={option.data.label} />
-            {option.data.label}
-          </Space>
-        )}
-      />
+    <>
+      <Layout.Header style={headerStyle}>
+        <Select
+          style={{ width: '250px' }}
+          value="press / to open"
+          onSelect={handleSelect}
+          open={select}
+          onClick={() => setSelect((prev) => !prev)}
+          options={crypto.map((coin) => ({
+            label: coin.name,
+            value: coin.id,
+            icon: coin.icon,
+          }))}
+          optionRender={(option) => (
+            <Space>
+              <img style={{ width: 20 }} src={option.data.icon} alt={option.data.label} />
+              {option.data.label}
+            </Space>
+          )}
+        />
 
-      <Button type="primary">Add asset</Button>
-    </Layout.Header>
+        <Button type="primary">Add asset</Button>
+
+        <Button type="primary" onClick={showModal}>
+          Open Modal
+        </Button>
+        <Modal open={isModalOpen} onCancel={handleCancel} footer={null}>
+          <CoinInfoModel coin={coin} />
+        </Modal>
+      </Layout.Header>
+    </>
   );
 }
