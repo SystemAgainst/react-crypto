@@ -51,6 +51,10 @@ const AddAssetForm: React.FC<AddAssetFormProps> = ({ onClose }) => {
   };
 
   const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
+    if (!coin) {
+      return;
+    }
+
     console.log('Success. Finish :', values);
     const newAsset = {
       id: coin.id,
