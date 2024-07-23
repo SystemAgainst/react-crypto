@@ -1,6 +1,7 @@
 import React from 'react';
 import { Layout, Typography } from 'antd';
 import { useCrypto } from '../../context/crypto-context.tsx';
+import PortfolioChart from '../PortfolioChart.tsx';
 
 const contentStyle: React.CSSProperties = {
   textAlign: 'center',
@@ -32,6 +33,7 @@ export default function AppContent() {
         <Typography.Title level={3} style={{ textAlign: 'left', color: '#fff' }}>
           Portfolio: {calculateTotalPortfolioValue()}$
         </Typography.Title>
+        <PortfolioChart />
       </Layout.Content>
     </>
   );
