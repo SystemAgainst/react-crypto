@@ -13,21 +13,24 @@ const contentStyle: React.CSSProperties = {
 export default function AppContent() {
   const { assets, crypto } = useCrypto();
 
-  const cryptoPriceMap = crypto.reduce((acc, c) => {
-    acc[c.id] = c.price
+  const cryptoPriceMap = crypto.reduce<Record<string, number>>((acc, c) => {
+    acc[c.id] = c.price;
     return acc;
   }, {});
+
+  const calculateTotalPortfolioValue = (): string => {
+    const totalValue = assets
+      .map((asset) => asset.amount * (cryptoPriceMap[asset.id] || 0))
+      .reduce((acc, v) => acc + v, 0);
+
+    return totalValue.toFixed(2);
+  };
 
   return (
     <>
       <Layout.Content style={contentStyle}>
         <Typography.Title level={3} style={{ textAlign: 'left', color: '#fff' }}>
-          Portfolio: {' '}
-          {
-            assets.map((asset) => asset.amount * cryptoPriceMap[asset.id])
-              .reduce((acc, v) => (acc + v), 0)
-              .toFixed(2)
-          }$
+          Portfolio: {calculateTotalPortfolioValue()}$
         </Typography.Title>
       </Layout.Content>
     </>
