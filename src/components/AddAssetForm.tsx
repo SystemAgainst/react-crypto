@@ -3,6 +3,8 @@ import { Crypto } from '../types/ICrypto.ts';
 import { Button, DatePicker, Divider, Form, FormProps, InputNumber, Result, Select, Space } from 'antd';
 import { useCrypto } from '../context/crypto-context.tsx';
 import CoinInfo from './CoinInfo.tsx';
+import { IAsset } from '../types';
+import { Dayjs } from 'dayjs';
 
 interface AddAssetFormProps {
   onClose: () => void;
@@ -20,7 +22,7 @@ const AddAssetForm: React.FC<AddAssetFormProps> = ({ onClose }) => {
     id: string;
     amount: number;
     price: number;
-    data: Date;
+    date: Dayjs;
   } | null>(null);
 
   const handleSelect = (value: string) => {
@@ -34,10 +36,10 @@ const AddAssetForm: React.FC<AddAssetFormProps> = ({ onClose }) => {
   };
 
   type FieldType = {
-    amount?: number;
-    price?: number;
-    date?: string;
-    total?: number;
+    amount: number;
+    price: number;
+    date: Dayjs;
+    total: number;
   };
 
   const validateMessages = {
@@ -56,20 +58,26 @@ const AddAssetForm: React.FC<AddAssetFormProps> = ({ onClose }) => {
     }
 
     console.log('Success. Finish :', values);
-    const newAsset = {
+
+    const newAsset: IAsset = {
       id: coin.id,
       amount: values.amount,
       price: values.price,
-      data: values.date?.$d ?? new Date(),
+      date: values.date.$d ?? new Date(),
     };
 
     assetRef.current = newAsset;
 
     setSubmitted(true);
-    addAsset(newAsset);
+
+    if (addAsset) {
+      addAsset(newAsset);
+    }
   };
 
-  const handleAmountChange = (value: number) => {
+  const handleAmountChange = (value: number | null) => {
+    if (value === null) return;
+
     const price = form.getFieldValue('price');
 
     form.setFieldsValue({
@@ -77,7 +85,9 @@ const AddAssetForm: React.FC<AddAssetFormProps> = ({ onClose }) => {
     });
   };
 
-  const handlePriceChange = (value: number) => {
+  const handlePriceChange = (value: number | null) => {
+    if (value === null) return;
+
     const amount = form.getFieldValue('amount');
 
     form.setFieldsValue({

@@ -11,9 +11,10 @@ export const CryptoContext = createContext<ICryptoContext>({
   assets: [],
   crypto: [],
   loading: false,
+  addAsset: () => {},
 });
 
-const mapAssets = (assets, result) => {
+const mapAssets = (assets: IAsset[], result: ICrypto['result']): IAsset[] => {
   return assets.map((asset) => {
     const coin = result.find((c) => c.id === asset.id);
 
@@ -56,7 +57,7 @@ export const CryptoContextProvider = ({ children }: CryptoContextProviderProps) 
     preload();
   }, []);
 
-  const addAsset = (newAsset) => {
+  const addAsset = (newAsset: IAsset) => {
     setAssets((prev) => mapAssets([...prev, newAsset], crypto));
   };
 
