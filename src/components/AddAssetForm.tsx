@@ -1,10 +1,14 @@
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Crypto } from '../types/ICrypto.ts';
 import { Button, DatePicker, Divider, Form, FormProps, InputNumber, Result, Select, Space } from 'antd';
 import { useCrypto } from '../context/crypto-context.tsx';
 import CoinInfo from './CoinInfo.tsx';
 
-const AddAssetForm = ({ onClose }) => {
+interface AddAssetFormProps {
+  onClose: () => void;
+}
+
+const AddAssetForm: React.FC<AddAssetFormProps> = ({ onClose }) => {
   const [form] = Form.useForm();
 
   const { crypto, addAsset } = useCrypto();
