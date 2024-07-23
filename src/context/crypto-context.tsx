@@ -33,6 +33,7 @@ const mapAssets = (assets: IAsset[], result: ICrypto['result']): IAsset[] => {
       grow: asset.price < coin.price,
       growPercentage: calculatePercentageDifference(asset.price, coin.price),
       totalAmount: asset.amount * coin.price,
+      name: coin.name,
       totalProfit: asset.amount * coin.price - asset.amount * asset.price,
     };
   });
