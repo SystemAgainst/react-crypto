@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Crypto } from '../types/ICrypto.ts';
 import { Button, DatePicker, Divider, Form, FormProps, InputNumber, Result, Select, Space } from 'antd';
 import { useCrypto } from '../context/crypto-context.tsx';
@@ -6,9 +6,13 @@ import CoinInfo from './CoinInfo.tsx';
 
 const AddAssetForm = ({ onClose }) => {
   const [form] = Form.useForm();
+
+  const { crypto } = useCrypto();
+
   const [coin, setCoin] = useState<Crypto | null>(null);
   const [submitted, setSubmitted] = useState(false);
-  const { crypto } = useCrypto();
+
+  const assetRef = useRef();
 
   const handleSelect = (value: string) => {
     const selectedCoin = crypto.find((c) => c.id === value);
@@ -38,6 +42,15 @@ const AddAssetForm = ({ onClose }) => {
 
   const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
     console.log('Success. Finish :', values);
+    const newAsset = {
+      id: coin.id,
+      amount: values.amount,
+      price: values.price,
+      data: values.data?.$d ?? new Date(),
+    };
+
+    assetRef.current = newAsset;
+
     setSubmitted(true);
   };
 
@@ -63,7 +76,7 @@ const AddAssetForm = ({ onClose }) => {
         <Result
           status="success"
           title="Successfully added new asset!"
-          subTitle={`Added ${42} of ${coin?.name} by price ${24}`}
+          subTitle={`Added ${assetRef.current?.amount} of ${coin?.name} by price ${assetRef.current?.price}`}
           extra={[
             <Button type="primary" key="console" onClick={onClose}>
               Close
