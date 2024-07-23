@@ -8,6 +8,8 @@ const siderStyle: React.CSSProperties = {
   padding: '1rem',
 };
 
+// TODO: fix type for asset
+
 export function AppSider() {
   const { assets } = useCrypto();
 
