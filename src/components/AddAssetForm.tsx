@@ -7,7 +7,7 @@ import CoinInfo from './CoinInfo.tsx';
 const AddAssetForm = ({ onClose }) => {
   const [form] = Form.useForm();
 
-  const { crypto } = useCrypto();
+  const { crypto, addAsset } = useCrypto();
 
   const [coin, setCoin] = useState<Crypto | null>(null);
   const [submitted, setSubmitted] = useState(false);
@@ -52,6 +52,7 @@ const AddAssetForm = ({ onClose }) => {
     assetRef.current = newAsset;
 
     setSubmitted(true);
+    addAsset(newAsset);
   };
 
   const handleAmountChange = (value: number) => {
