@@ -16,7 +16,12 @@ const AddAssetForm: React.FC<AddAssetFormProps> = ({ onClose }) => {
   const [coin, setCoin] = useState<Crypto | null>(null);
   const [submitted, setSubmitted] = useState(false);
 
-  const assetRef = useRef();
+  const assetRef = useRef<{
+    id: string;
+    amount: number;
+    price: number;
+    data: Date;
+  } | null>(null);
 
   const handleSelect = (value: string) => {
     const selectedCoin = crypto.find((c) => c.id === value);
@@ -29,9 +34,10 @@ const AddAssetForm: React.FC<AddAssetFormProps> = ({ onClose }) => {
   };
 
   type FieldType = {
-    username?: string;
-    password?: string;
-    remember?: string;
+    amount?: number;
+    price?: number;
+    date?: string;
+    total?: number;
   };
 
   const validateMessages = {
@@ -50,7 +56,7 @@ const AddAssetForm: React.FC<AddAssetFormProps> = ({ onClose }) => {
       id: coin.id,
       amount: values.amount,
       price: values.price,
-      data: values.data?.$d ?? new Date(),
+      data: values.date?.$d ?? new Date(),
     };
 
     assetRef.current = newAsset;
